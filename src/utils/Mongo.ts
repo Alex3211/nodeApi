@@ -9,17 +9,11 @@ class Mongo {
 
   constructor() {
     this.options = {
-      autoIndex: false, // Don't build indexes
-      bufferMaxEntries: 0,
-      connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
-      family: 4, // Use IPv4, skip trying IPv6
-      poolSize: 10, // Maintain up to 10 socket connections
+      autoIndex: false,
+      connectTimeoutMS: 10000,
+      family: 4,
       useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-      reconnectInterval: 500, // Reconnect every 500ms
-      reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+      socketTimeoutMS: 45000,
     };
     this.launch();
   }
