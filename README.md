@@ -32,7 +32,7 @@ The API will create a default admin user, the model is in [config file](./src/co
 | TYPE   | ENDPOINT                            | DESCRIPTION         | BODY                                                                    |
 | ------ | ----------------------------------- | ------------------- | ----------------------------------------------------------------------- |
 | POST   | `www.yourdomain.com/authenticate/`  | Authenticate a user | username & password                                                     |
-| GET    | `www.yourdomain.com/users/`         | Get all users       | none                                                                    |
+| GET    | `www.yourdomain.com/users/?page=1&sort=desc&limit=5&search=`         | Get all users       | Nothing or one of theses property: email, username, password, firstName & lastName                                                                    |
 | GET    | `www.yourdomain.com/users/{userId}` | get a user          | none                                                                    |
 | POST   | `www.yourdomain.com/users/`         | Create a user       | email, username, password, firstName & lastName                         |
 | PUT    | `www.yourdomain.com/users/{userId}` | update a user       | One of theses property: email, username, password, firstName & lastName |
