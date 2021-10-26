@@ -5,7 +5,6 @@ class UserRouter {
   public router: Router;
   public userRoutes: UserRouter;
   private userController: UserController;
-  private userRoutesConfig: object;
 
   constructor() {
     this.userController = new UserController();

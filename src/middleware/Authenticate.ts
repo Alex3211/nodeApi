@@ -14,7 +14,7 @@ export default function authenticateBefore(target: any, key: any, descriptor: Pr
     }
     const req = args[0];
     const res = args[1];
-    const token = req.body.token || req.headers['x-access-token'] || '';
+    const token = req.headers['x-access-token'] || req.body.token || null;
     jwt.verify(token, utils.getTokenKey(), (err, decoded) => {
       if (err) {
         res.status(401).json({

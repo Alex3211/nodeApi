@@ -7,7 +7,7 @@ import utils from '../utils/Utils';
 
 export default class AuthenticationController {
   public authenticate(req: Request, res: Response, secretKey: string) {
-    const token = req.body.token || req.headers['x-access-token'];
+    const token = req.headers['x-access-token'] || req.body.token || null;
     if (token) {
       jwt.verify(token, secretKey, (err, decoded) => {
         if (err) {
@@ -33,7 +33,8 @@ export default class AuthenticationController {
             res.json({
               message: wording.tokenEnjoy,
               success: true,
-              token: jwt.sign({ username: user.username, id: user._id, firstName: user.firstName, lastName: user.lastName, role: user.role }, secretKey, { expiresIn: 86400 })
+              token: jwt.sign({ username: user.username, id: user._id, firstName: user.firstName, lastName: user.lastName, role: user.role }, secretKey, { expiresIn: '2d' }),
+              User: { username: user.username, id: user._id, firstName: user.firstName, lastName: user.lastName, role: user.role }
             });
           }
         }

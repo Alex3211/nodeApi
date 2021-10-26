@@ -1,6 +1,6 @@
 export default {
     secret: 'thisIsASecretKeyForParsingToken',
-    database: 'mongodb://localhost/tes',
+    database: 'mongodb://localhost/test',
     port: 8081,
     api_url: '/api/v1/',
     defaultUser: {

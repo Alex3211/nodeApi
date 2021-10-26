@@ -12,15 +12,33 @@ export default class UserController {
 
   @authenticateBefore
   public async findAll(req: Request, res: Response, status?: any) {
-    await User.find({}).then((data) => {
-      res.status(200).json(
-        utils.formatData(true, data)
-      );
-    }).catch((error) => {
-      res.status(500).json(
-        utils.formatData(false, error)
-      );
-    });
+    const resultsPerPage = req.query.limit ? parseInt(req.query.limit) : 5;
+    let page = req.query.page >= 1 ? req.query.page : 1;
+    const query = req.query.search;
+    page = page - 1
+    let Options = <any>{};
+
+    const count = await User.count({});
+    await User.find(Options)
+      .sort({ createdAt: req.query.sort ? req.query.sort : "desc" })
+      .limit((query) ? 0 : resultsPerPage)
+      .skip((query) ? 0 : resultsPerPage * page)
+      .then((data) => {
+        if (query) {
+          let result = utils.filterByString(JSON.parse(JSON.stringify(data)), query).slice(0, resultsPerPage)
+          res.status(200).json(
+            utils.formatData(true, result, count)
+          );
+        } else {
+          res.status(200).json(
+            utils.formatData(true, data, count)
+          );
+        }
+      }).catch((error) => {
+        res.status(500).json(
+          utils.formatData(false, error)
+        );
+      });
   }
 
   @authenticateBefore
@@ -50,7 +68,7 @@ export default class UserController {
   @authenticateBefore
   public async create(req: Request, res: Response, status?: any) {
     if (!utils.verifyBody(req)) {
-      res.status(500).json( utils.formatData(false, wording.unauthorized) );
+      res.status(500).json(utils.formatData(false, wording.unauthorized));
       return;
     }
     const firstName: string = req.body.firstName;
@@ -86,7 +104,7 @@ export default class UserController {
       });
     }
     if (!utils.verifyBody(req)) {
-      res.status(500).json( utils.formatData(false, wording.unauthorized) );
+      res.status(500).json(utils.formatData(false, wording.unauthorized));
       return;
     }
     const _id: string = req.params.userID;
